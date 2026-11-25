@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>咲野奈奈 Sana｜STARBERRY™ 官方主页</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="audio.js"></script>
+  <script defer src="canvas-scenes.js"></script>
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <!-- Fixed Atmospheric Overlay Layers -->
+  <canvas id="grain-canvas" aria-hidden="true"></canvas>
+  <div id="scanlines-overlay" aria-hidden="true"></div>
+  <div id="flashlight-overlay" aria-hidden="true"></div>
+  <div id="vignette-overlay" aria-hidden="true"></div>
+
+  <!-- Shattered Viewport Crack SVG (Act 6 Climax) -->
+  <svg id="crack-overlay" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="rgba(255, 240, 248, 0.8)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M615,380 L520,285 L405,245 L270,130 L105,55" stroke-width="2.4" />
+      <path d="M615,380 L715,270 L875,205 L1035,85 L1175,18" stroke-width="2.2" />
+      <path d="M615,380 L665,495 L795,620 L970,770" stroke-width="2.4" />
+      <path d="M615,380 L510,475 L360,590 L185,750" stroke-width="2.2" />
+      <path d="M615,380 L608,205 L585,80 L602,0" stroke-width="1.7" />
+      <path d="M615,380 L795,395 L990,445 L1195,480" stroke-width="1.8" />
+      <path d="M615,380 L405,390 L215,425 L10,470" stroke-width="1.8" />
+      <path d="M520,285 L475,175 L445,50" stroke-width="1.2" />
+      <path d="M715,270 L740,135 L780,15" stroke-width="1.2" />
+      <path d="M665,495 L645,660 L620,795" stroke-width="1.2" />
+      <path d="M510,475 L435,645 L400,790" stroke-width="1.1" />
+      <path d="M582,350 L642,355 L658,405 L598,422 L566,388 Z" stroke-width="1.5" />
+    </g>
+    <g fill="none" stroke="rgba(236, 72, 153, 0.55)" stroke-width="1.6">
+      <path d="M617,382 L522,287 L407,247" />
+      <path d="M617,382 L717,272 L877,207" />
+      <path d="M617,382 L667,497 L797,622" />
+    </g>
+  </svg>
+
+  <!-- Peripheral Apparitions Layer -->
+  <div id="peripheral-layer" aria-hidden="true"></div>
+
+  <!-- Top-Edge Exit-Intent Warning -->
+  <div id="exit-warning" role="alert" aria-live="assertive">
+    不要把鼠标移向关闭按钮。奈奈看见了哦♡
+  </div>
+
+  <!-- Tainted Scroll-Back Toast -->
+  <div id="tainted-toast" role="status" aria-live="polite">
+    想逃回上面吗？这间卧室已经锁死了哦♡
+  </div>
+
+  <!-- Top-Right Push Notification Stack (Smartphone / JINE Style) -->
+  <aside id="push-stack" aria-label="实时私信推送" aria-live="polite"></aside>
+
+  <!-- Bottom-Left Floating BGM Pill -->
+  <button id="audio-pill" type="button" aria-pressed="false" title="切换奈奈的八音盒 BGM">
+    <span class="audio-dot" aria-hidden="true"></span>
+    <span id="audio-pill-label">🎵 播放奈奈的八音盒 BGM</span>
+  </button>
+
+  <!-- Top Announcement Marquee -->
+  <div id="marquee-bar" aria-hidden="true">
+    <div class="marquee-track" id="marquee-track">
+      <span>★ 祝贺咲野奈奈出道三周年 ★ 周五 20:00 草莓蛋糕歌回 ★ 全新哄睡语音包发售中 ♡ ★ 祝贺咲野奈奈出道三周年 ★ 周五 20:00 草莓蛋糕歌回 ★ 全新哄睡语音包发售中 ♡</span>
+    </div>
+  </div>
+
+  <!-- Compact Sticky Navigation Bar -->
+  <header id="site-nav">
+    <div class="nav-inner">
+      <a href="#act-hero" class="brand" id="nav-brand">
+        <span class="brand-mark" aria-hidden="true">♡</span>
+        <span class="brand-text"
+          data-normal="咲野奈奈 SANA"
+          data-uncanny="SANA · 正在看你"
+          data-horror="不要切屏"
+          data-tainted="已锁定单推">咲野奈奈 SANA</span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#act-hero" class="nav-link"
+          data-normal="日程表"
+          data-uncanny="每晚等你"
+          data-horror="没有退路"
+          data-tainted="永远陪我">日程表</a>
+        <a href="#act-goods" class="nav-link"
+          data-normal="周边与语音"
+          data-uncanny="贴耳低语"
+          data-horror="匿名留言"
+          data-tainted="别看别人">周边与语音</a>
+        <a href="#act-stream" class="nav-link"
+          data-normal="直播间"
+          data-uncanny="私密配信"
+          data-horror="只剩 1 人"
+          data-tainted="关不掉">直播间</a>
+        <a href="#act-desktop" class="nav-link"
+          data-normal="SANA_OS"
+          data-uncanny="桌面接管"
+          data-horror="†升天†"
+          data-tainted="留下来">SANA_OS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="experience-root">
+    <!-- ==================== ACT 1: JAPANESE VTUBER MAGAZINE HOME & SCHEDULE ==================== -->
+    <section id="act-hero" class="act-section act-1">
+      <div class="container hero-magazine">
+        <div class="hero-left">
+          <div class="hero-kicker" id="hero-kicker">STARBERRY™ // 1ST GEN · 3RD ANNIVERSARY</div>
+          <h1 id="hero-title">咲野奈奈 Sana</h1>
+          <p class="hero-lead" id="hero-subtitle">
+            草莓奶茶系猫耳天使主播♡ 每天用轻甜歌回与睡前低语，把你的夜晚填得满满当当。只要你还愿意看着屏幕，奈奈就永远不会离开。
+          </p>
+
+          <div class="idol-tags" id="idol-tags">
+            <span>#猫耳天使</span>
+            <span>#草莓奶茶系</span>
+            <span>#ASMR哄睡</span>
+            <span>#24H陪伴</span>
+          </div>
+
+          <div class="cheer-box">
+            <button type="button" id="cheer-btn" class="btn-cheer">
+              <span>♡ 给奈奈比心应援</span>
+              <strong id="cheer-count">520,131</strong>
+            </button>
+            <button type="button" id="hero-audio-btn" class="btn-bgm">
+              🎵 播放八音盒 BGM
+            </button>
+          </div>
+          <p id="cheer-reaction" class="cheer-reaction">点击应援按钮，奈奈会收到你的心意哦♡</p>
+        </div>
+
+        <div class="hero-center">
+          <div class="idol-poster-frame" id="idol-poster-frame">
+            <img id="hero-idol-img" src="assets/sana-hero-idol.jpg" alt="咲野奈奈 Sana 官方立绘" />
+            <div id="hero-tainted-placeholder" class="placeholder-box placeholder-hero" hidden>
+              <span>[ 占位：sana-stream-yandere.jpg ]</span>
+            </div>
+            <span id="hero-ribbon" class="poster-ribbon">OFFICIAL KEY VISUAL ♡</span>
+          </div>
+        </div>
+
+        <aside class="schedule-card" id="schedule-card" aria-label="本周直播日程">
+          <div class="sched-head">
+            <span class="sched-kicker" id="sched-kicker">WEEKLY SCHEDULE</span>
+            <h2 id="sched-title">本周星光时间表</h2>
+            <span class="sched-clock" id="dash-time">--:--:--</span>
+          </div>
+          <ul class="sched-list" id="sched-list">
+            <li>
+              <span class="sched-day">MON</span>
+              <span class="sched-item" data-tainted="永远看着奈奈♡">20:00 元气杂谈 &amp; 读棉花糖</span>
+            </li>
+            <li>
+              <span class="sched-day">WED</span>
+              <span class="sched-item" data-tainted="把别的主播取关">21:00 治愈系弹唱歌回</span>
+            </li>
+            <li>
+              <span class="sched-day">FRI</span>
+              <span class="sched-item" data-tainted="门已经反锁了">20:00 三周年草莓蛋糕派对</span>
+            </li>
+            <li class="sched-special">
+              <span class="sched-day">SUN</span>
+              <span class="sched-item" data-tainted="只剩下我们两个人♡">24:00 深夜秘密回 · 仅限你 1 人</span>
+            </li>
+          </ul>
+          <div class="sched-foot">
+            <span id="sched-status" class="sched-pill">● 心情超好♡</span>
+            <span id="sched-viewers">预约人数：128,492</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 2: VOICE SHOP & ANONYMOUS FAN BBS THREAD ==================== -->
+    <section id="act-goods" class="act-section act-2">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">OFFICIAL BOOTH // 周边与音声商店</span>
+          <h2>把奈奈的声音带回你的床头</h2>
+          <p class="section-sub">点击试听按钮，感受只对你一个人耳语的近距离陪伴。</p>
+        </div>
+
+        <div class="goods-grid" id="goods-grid">
+          <article class="goods-card">
+            <div class="goods-thumb g1">🍓</div>
+            <div class="goods-meta">
+              <span class="goods-tag">语音包</span>
+              <h3>《早安奈奈》元气闹钟语音</h3>
+              <p>每天早上准时叫你起床，再也不许赖床去迟到啦。</p>
+              <div class="goods-bottom">
+                <strong>¥28</strong>
+                <button type="button" class="preview-btn" data-preview="cute">▶ 试听</button>
+              </div>
+              <p class="preview-sub" hidden></p>
+            </div>
+          </article>
+
+          <article class="goods-card">
+            <div class="goods-thumb g2">🎀</div>
+            <div class="goods-meta">
+              <span class="goods-tag">亚克力周边</span>
+              <h3>三周年限定天使女仆立牌</h3>
+              <p>推荐放在床头正对枕头的位置，这样整晚都不会离开奈奈的视线。</p>
+              <div class="goods-bottom">
+                <strong>¥128</strong>
+                <span class="goods-stock">余量紧张</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="goods-card">
+            <div class="goods-thumb g3">🎧</div>
+            <div class="goods-meta">
+              <span class="goods-tag">深夜 ASMR</span>
+              <h3>《只说给你听》深夜贴耳呼吸</h3>
+              <p>
+                关灯后戴上耳机，奈奈会在漆黑里
+                <span class="glitch-word" data-alt="听着你害怕时的呼吸声">温柔哄你入睡</span>。
+              </p>
+              <div class="goods-bottom">
+                <strong>¥66</strong>
+                <button type="button" class="preview-btn" data-preview="creepy">▶ 试听</button>
+              </div>
+              <p class="preview-sub" hidden></p>
+            </div>
+          </article>
+
+          <article class="goods-card goods-card-key" id="goods-key-card">
+            <div class="goods-thumb g4">🗝️</div>
+            <div class="goods-meta">
+              <span class="goods-tag">特殊特典</span>
+              <h3 id="key-title">「奈奈的房间钥匙」</h3>
+              <p id="key-desc">连续观看直播 100 小时即可自动解锁的神秘礼物。</p>
+              <div class="goods-bottom">
+                <strong id="key-price">非卖品</strong>
+                <span class="goods-stock" id="key-status">已为你预留</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Anonymous Fan BBS Thread -->
+        <div class="bbs-board" id="bbs-thread">
+          <div class="bbs-head">
+            <div>
+              <span class="bbs-kicker">STARBERRY ANONYMOUS BBS // 粉丝匿名讨论串</span>
+              <h3>【综合讨论】咲野奈奈三周年观察楼（实时同步）</h3>
+            </div>
+            <span class="bbs-badge" id="bbs-badge">在线讨论 412</span>
+          </div>
+
+          <ol class="bbs-list">
+            <li class="bbs-post">
+              <div class="post-meta">
+                <span class="post-no">#101</span>
+                <strong>奶茶猫猫</strong>
+                <span>22:14:08</span>
+              </div>
+              <p>三周年立绘真的太好看了！！猫耳加白色小翅膀简直是天使本尊，我已经下单全套立牌了！</p>
+            </li>
+
+            <li class="bbs-post">
+              <div class="post-meta">
+                <span class="post-no">#102</span>
+                <strong>匿名舰长</strong>
+                <span>23:41:19</span>
+              </div>
+              <p>只有我觉得昨晚后半段奈奈眼睛里没有高光了吗？盯着镜头看了整整十分钟没眨眼，有点瘆人……</p>
+            </li>
+
+            <li class="bbs-post">
+              <div class="post-meta">
+                <span class="post-no">#103</span>
+                <strong>阿P_09</strong>
+                <span>01:12:55</span>
+              </div>
+              <p>刚刚直播卡顿了两秒，她笑着念出了我这边正在下雨，还问我为什么半夜不拉窗帘。我准备退圈了。</p>
+            </li>
+
+            <li class="bbs-post bbs-deleted">
+              <div class="post-meta">
+                <span class="post-no">#104</span>
+                <strong>[楼层已被主播 咲野奈奈 删除]</strong>
+                <span>01:13:02</span>
+              </div>
+              <p>████████████████████████████</p>
+            </li>
+
+            <li class="bbs-post bbs-pinned" id="bbs-sana-post">
+              <div class="post-meta">
+                <span class="post-no">#105</span>
+                <strong>咲野奈奈 [置顶 · 本人]</strong>
+                <span id="bbs-live-clock">--:--:--</span>
+              </div>
+              <p id="bbs-observer-text">
+                背地里说奈奈坏话是不对的哦♡ 正在看这条帖子的那位，不要偷偷划走嘛。
+              </p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 3: REALISTIC STREAM PLAYER, SC STRIP & HIJACKED LIVE CHAT ==================== -->
+    <section id="act-stream" class="act-section act-3">
+      <div class="container">
+        <div class="stream-shell">
+          <div class="stream-topbar">
+            <div class="stream-title-group">
+              <span class="stream-live-pill" id="stream-live-pill">● LIVE</span>
+              <h2 id="stream-title">【三周年】和大家一起切草莓蛋糕♡</h2>
+            </div>
+            <div class="stream-viewers-pill" id="stream-viewers-bar">
+              <span>同接人数</span>
+              <strong id="stream-viewer-count">128,492</strong>
+            </div>
+          </div>
+
+          <!-- Super Chat Strip -->
+          <div class="sc-strip" id="sc-strip">
+            <div class="sc-chip" id="sc-1">
+              <strong id="sc-1-name">糖心莓子</strong>
+              <span id="sc-1-msg">¥50 奈奈永远最可爱！</span>
+            </div>
+            <div class="sc-chip" id="sc-2">
+              <strong id="sc-2-name">星光骑士</strong>
+              <span id="sc-2-msg">¥198 祝三周年快乐♡</span>
+            </div>
+            <div class="sc-chip" id="sc-3">
+              <strong id="sc-3-name">Kuro_09</strong>
+              <span id="sc-3-msg">¥500 明天也能见到你吗</span>
+            </div>
+          </div>
+
+          <div class="stream-body">
+            <!-- Left: 16:9 Canvas Feed -->
+            <div class="stream-video-col">
+              <div class="stream-frame">
+                <canvas id="stream-canvas"></canvas>
+                <div class="stream-hud">
+                  <span id="stream-clock">--:--:--</span>
+                  <span id="stream-hud-mode">1080P 60FPS · SANA♡LIVE</span>
+                </div>
+              </div>
+              <div class="stream-status-bar" id="stream-status-bar">
+                <span id="stream-status-text">房间信号极佳 · 欢迎发送弹幕与奈奈互动♡</span>
+                <span id="stream-room-code">ROOM: SANA_007</span>
+              </div>
+            </div>
+
+            <!-- Right: Real DOM Live Chat + Hijacked Input -->
+            <aside class="live-chat-box" id="live-chat-box" aria-label="直播间实时弹幕">
+              <div class="live-chat-head">
+                <strong id="live-chat-title">实时聊天室</strong>
+                <span id="live-chat-badge">弹幕正常</span>
+              </div>
+              <div class="live-chat-list" id="live-chat-list">
+                <div class="lc-item"><span class="lc-name">莓果派：</span><span>奈奈今天超甜！！</span></div>
+                <div class="lc-item"><span class="lc-name">小雪：</span><span>猫耳动起来好可爱呜呜</span></div>
+                <div class="lc-item"><span class="lc-name">晚安曲：</span><span>草莓蛋糕看起来好好吃</span></div>
+                <div class="lc-item"><span class="lc-name">单推bot：</span><span>永远喜欢咲野奈奈♡</span></div>
+              </div>
+              <form class="live-chat-form" id="live-chat-form">
+                <input
+                  type="text"
+                  id="live-chat-input"
+                  maxlength="40"
+                  placeholder="发一条弹幕给奈奈吧…"
+                  autocomplete="off"
+                />
+                <button type="submit" id="live-chat-send">发送</button>
+              </form>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 4: SANA_OS 98 (NEEDY STREAMER OVERLOAD RETRO DESKTOP TAKEOVER) ==================== -->
+    <section id="act-desktop" class="act-section act-4">
+      <div class="container">
+        <div class="sana-os-desktop" id="sana-os-desktop">
+          <!-- NSO-style Top Parameter Meters -->
+          <div class="os-meters-bar">
+            <div class="os-meter">
+              <span class="meter-label">好感度</span>
+              <div class="meter-track"><div class="meter-fill pink" style="width: 100%"></div></div>
+              <strong class="meter-val">999%</strong>
+            </div>
+            <div class="os-meter">
+              <span class="meter-label">阴暗度</span>
+              <div class="meter-track"><div class="meter-fill purple" style="width: 100%"></div></div>
+              <strong class="meter-val">100%</strong>
+            </div>
+            <div class="os-meter">
+              <span class="meter-label">执念值</span>
+              <div class="meter-track"><div class="meter-fill crimson" style="width: 100%"></div></div>
+              <strong class="meter-val">OVERFLOW</strong>
+            </div>
+          </div>
+
+          <!-- 4 Retro Windows Grid -->
+          <div class="os-windows-grid">
+            <!-- Window 1: JINE -->
+            <article class="win98" id="win-jine">
+              <div class="win98-bar">
+                <span>💬 JINE — 咲野奈奈 (99+)</span>
+                <span class="win98-btns"><i>_</i><i>□</i><i>×</i></span>
+              </div>
+              <div class="win98-body jine-body">
+                <div class="jine-log" id="jine-log">
+                  <div class="jine-msg">为什么刚才在聊天室停下来了？</div>
+                  <div class="jine-msg">你不是说好只推奈奈一个人的吗？</div>
+                  <div class="jine-msg sticker-wrap">
+                    <img src="assets/sana-sticker-cute.jpg" alt="可爱贴纸" class="jine-sticker-img" />
+                  </div>
+                  <div class="jine-msg alert">不回消息的话，我就一直敲屏幕哦♡</div>
+                  <div class="jine-msg sticker-wrap" id="jine-crazy-slot">
+                    <div class="placeholder-box placeholder-sticker">[ 占位：sana-sticker-crazy.jpg ]</div>
+                  </div>
+                </div>
+                <div class="jine-actions">
+                  <button type="button" id="jine-love-btn" class="win-btn primary">【我只喜欢奈奈♡】</button>
+                  <div class="sleep-arena" id="sleep-arena">
+                    <button type="button" id="jine-sleep-btn" class="win-btn danger">【我要去睡了】</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Window 2: Notepad Diary -->
+            <article class="win98" id="win-notepad">
+              <div class="win98-bar">
+                <span>📝 日记_1125.txt — 记事本</span>
+                <span class="win98-btns"><i>_</i><i>□</i><i>×</i></span>
+              </div>
+              <div class="win98-body notepad-body">
+                <p>11月25日 晴♡</p>
+                <p>今天大家也来了，好开心。只要一直做可爱元气的偶像，就能被永远喜欢吧。</p>
+                <p class="notepad-slip">……才怪呢。刚刚有人的目光移开了 0.3 秒。</p>
+                <p class="notepad-manic">不要走不要走不要走不要走不要走不要走</p>
+                <p class="notepad-manic">把其他人的频道全部拉黑吧♡ 全部只属于我一个人就好了</p>
+                <p class="notepad-ascend">† 升 天 准 备 中 †</p>
+              </div>
+            </article>
+
+            <!-- Window 3: Co-dependent Contract -->
+            <article class="win98" id="win-contract">
+              <div class="win98-bar">
+                <span>⚠️ 单推绑定协议.exe</span>
+                <span class="win98-btns"><i>_</i><i>□</i><i>×</i></span>
+              </div>
+              <div class="win98-body contract-win-body">
+                <p class="contract-intro">请确认以下终身单推条款（不可撤销）：</p>
+                <label class="os-check-item">
+                  <input type="checkbox" class="contract-check" data-threshold="0.61" />
+                  <span>清空所有其他 VTuber 关注列表</span>
+                </label>
+                <label class="os-check-item">
+                  <input type="checkbox" class="contract-check" data-threshold="0.66" />
+                  <span>允许 SANA_OS 接管我的深夜屏幕权限</span>
+                </label>
+                <label class="os-check-item">
+                  <input type="checkbox" class="contract-check" data-threshold="0.71" />
+                  <span>无论屏幕背后是谁，我都绝不逃跑</span>
+                </label>
+                <p id="contract-feedback" class="contract-feedback">正在等待你的确认……♡</p>
+                <a href="#act-corridor" id="sign-btn" class="win-btn primary full">确认永恒绑定♡</a>
+              </div>
+            </article>
+
+            <!-- Window 4: System Monitor -->
+            <article class="win98" id="win-sysmon">
+              <div class="win98-bar">
+                <span>🖥️ SANA_SYSTEM_MONITOR.exe</span>
+                <span class="win98-btns"><i>_</i><i>□</i><i>×</i></span>
+              </div>
+              <div class="win98-body sysmon-body">
+                <div><span>TARGET_VIEWPORT</span><strong id="sys-viewport">-- × --</strong></div>
+                <div><span>SESSION_DURATION</span><strong id="sys-duration">0s</strong></div>
+                <div><span>CURSOR_IDLE</span><strong id="sys-idle">0s</strong></div>
+                <div><span>LIVE2D_MASK_INTEGRITY</span><strong class="sys-warn" id="sys-mask">14% (正在剥离)</strong></div>
+                <div><span>EXIT_LOCK</span><strong class="sys-warn">ARMED</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Retro Taskbar -->
+          <div class="os-taskbar">
+            <span class="os-start">† 升天 †</span>
+            <span class="os-task">SANA_OS 98 · 已接管页面控制权</span>
+            <span class="os-clock" id="os-clock">--:--</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 5: STICKY PRIVATE-CAM DESCENT ==================== -->
+    <section id="act-corridor" class="act-section act-5">
+      <div class="corridor-sticky">
+        <canvas id="corridor-canvas"></canvas>
+        <div class="edge-scratches" aria-hidden="true">
+          <span class="scratch s1">皮套好重</span>
+          <span class="scratch s2">别眨眼</span>
+          <span class="scratch s3">距离 0.2m</span>
+          <span class="scratch s4">就在玻璃后面</span>
+        </div>
+        <div class="corridor-caption-wrap">
+          <p id="corridor-caption">可爱的猫耳和声音……你喜欢的只是这层皮囊吗？</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 6: UNDECLINABLE INCOMING CALL & CLIMAX ==================== -->
+    <section id="act-climax" class="act-section act-6">
+      <div id="final-threshold" class="incoming-call-card">
+        <div class="call-badge">ENCRYPTED VIDEO CALL // 无来电显示</div>
+        <div class="call-avatar-ring">
+          <img id="call-avatar-img" src="assets/sana-stream-yandere.jpg" alt="咲野奈奈" class="call-avatar-img" />
+        </div>
+        <h2>咲野奈奈（真实摄像头）</h2>
+        <p id="call-note" class="call-note">正在请求接通你的屏幕与麦克风……</p>
+        <div class="call-actions">
+          <button type="button" id="accept-call-btn" class="call-btn accept">● 接通一对一视频</button>
+          <button type="button" id="decline-call-btn" class="call-btn decline">挂断通话</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FULL-VIEWPORT CLIMAX & AFTERMATH STAGE ==================== -->
+  <div id="climax-stage" hidden>
+    <canvas id="climax-canvas"></canvas>
+    <div id="climax-text" aria-live="assertive"></div>
+    <div id="aftermath-screen" hidden>
+      <div class="aftermath-inner">
+        <div class="signal-lost-code">FATAL ERROR // SANA_ROOM_007 PERMANENTLY BOUND</div>
+        <div id="aftermath-time" class="aftermath-time">记录已永久绑定 · 当前房间人数：2（你与咲野奈奈）</div>
+        <p class="aftermath-sub">别关掉屏幕。天亮之前，她都会这样一直贴着玻璃看着你♡</p>
+        <div class="aftermath-actions">
+          <button type="button" id="reset-btn" class="btn-aftermath">重新开始体验</button>
+          <button type="button" id="aftermath-audio-btn" class="btn-aftermath secondary">静音</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
