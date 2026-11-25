@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let exitWarnTimer = null;
 
   const NORMAL_MARQUEE =
-    "★ 祝贺咲野奈奈出道三周年 ★ 周五 20:00 草莓蛋糕歌回 ★ 全新哄睡语音包发售中 ♡ ★ 祝贺咲野奈奈出道三周年 ★ 周五 20:00 草莓蛋糕歌回 ★ 全新哄睡语音包发售中 ♡";
+    "★ 祝贺咲野奈奈出道三周年 ★ 周五 20:00 草莓蛋糕歌回 ★ 三周年限定弹唱专辑发售中 ♡ ★ 祝贺咲野奈奈出道三周年 ★ 周五 20:00 草莓蛋糕歌回 ★ 三周年限定弹唱专辑发售中 ♡";
   const TAINTED_MARQUEE =
     "† 不要关掉这个网页 † 你只准看咲野奈奈一个人 † 门已经反锁了哦♡ † 不要关掉这个网页 † 你只准看咲野奈奈一个人 † 门已经反锁了哦♡ †";
 
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function syncAudioLabels(isPlaying) {
     if (isPlaying) {
       audioPill.setAttribute("aria-pressed", "true");
-      audioPillLabel.textContent = dread > 0.55 ? "🔊 正在监听房间呼吸声" : "🔊 八音盒 BGM 播放中♡";
+      audioPillLabel.textContent = dread > 0.55 ? "🔊 琴弦正在黑暗中走音" : "🔊 八音盒 BGM 播放中♡";
       if (heroAudioBtn) heroAudioBtn.textContent = "🔇 暂停八音盒 BGM";
       if (aftermathAudioBtn) aftermathAudioBtn.textContent = "静音";
     } else {
@@ -274,8 +274,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (sub) {
         sub.hidden = false;
         sub.textContent = isCreepy
-          ? "「……别动，你的心跳声好吵啊♡」"
-          : "「早上好呀～再赖床奈奈就要钻进被窝叫你了哦♡」";
+          ? "「♪ 别关掉播放器……这首歌，你不许唱给别人听♡」"
+          : "「♪ 无论多晚，奈奈都会抱着吉他为你唱下去哦♡」";
       }
       if (window.SanaAudio) window.SanaAudio.playVoicePreview(isCreepy);
     });
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cuteChatPool = [
     ["糖心莓子", "奈奈声音好治愈♡"],
     ["小奶糕", "88888888"],
-    ["kksk", "猫耳抖得好萌"],
+    ["kksk", "小狗耳朵抖得好萌"],
     ["星光粉", "今天也来报到了！"]
   ];
   const creepyChatPool = [
@@ -459,8 +459,8 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.top = `${18 + Math.random() * 52}vh`;
     el.innerHTML = `
       <svg viewBox="0 0 70 150" width="92" height="180" aria-hidden="true">
-        <polygon points="16,28 24,8 30,24" fill="#0d0309" />
-        <polygon points="54,28 46,8 40,24" fill="#0d0309" />
+        <ellipse cx="21" cy="21" rx="6" ry="11" transform="rotate(-18 21 21)" fill="#0d0309" />
+        <ellipse cx="49" cy="21" rx="6" ry="11" transform="rotate(18 49 21)" fill="#0d0309" />
         <ellipse cx="35" cy="34" rx="14" ry="18" fill="#0d0309" />
         <path d="M14,58 Q35,44 56,58 L62,148 L8,148 Z" fill="#0d0309" />
         <circle cx="29" cy="32" r="2.2" fill="rgba(251, 113, 133, 0.85)" />
@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
     heroKicker.textContent = "STARBERRY™ // 1ST GEN · 3RD ANNIVERSARY";
     heroTitle.textContent = "咲野奈奈 Sana";
     heroSubtitle.textContent =
-      "草莓奶茶系猫耳天使主播♡ 每天用轻甜歌回与睡前低语，把你的夜晚填得满满当当。只要你还愿意看着屏幕，奈奈就永远不会离开。";
+      "草莓奶茶系小狗天使主播♡ 每天用温暖的吉他弹唱与轻甜歌回，把你的夜晚填得满满当当。只要你还愿意听她唱歌，奈奈就永远不会离开。";
     cheerCount.textContent = "520,131";
     cheerReaction.textContent = "点击应援按钮，奈奈会收到你的心意哦♡";
     heroIdolImg.src = assets.heroIdol || "assets/sana-hero-idol.jpg";
@@ -574,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
       el.textContent = "";
     });
     if (glitchWord) {
-      glitchWord.textContent = "温柔哄你入睡";
+      glitchWord.textContent = "轻声为你弹唱";
       glitchWord.classList.remove("swapped");
     }
     if (goodsKeyCard) goodsKeyCard.classList.remove("corrupted");
@@ -594,7 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
     liveChatBadge.textContent = "弹幕正常";
     liveChatList.innerHTML = `
       <div class="lc-item"><span class="lc-name">莓果派：</span><span>奈奈今天超甜！！</span></div>
-      <div class="lc-item"><span class="lc-name">小雪：</span><span>猫耳动起来好可爱呜呜</span></div>
+      <div class="lc-item"><span class="lc-name">小雪：</span><span>小狗耳朵动起来好可爱呜呜</span></div>
       <div class="lc-item"><span class="lc-name">晚安曲：</span><span>草莓蛋糕看起来好好吃</span></div>
       <div class="lc-item"><span class="lc-name">单推bot：</span><span>永远喜欢咲野奈奈♡</span></div>`;
     scChips[0].name.textContent = "糖心莓子";
@@ -778,7 +778,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const span = Math.max(1, rect.height - window.innerHeight);
       corridorP = Math.max(0, Math.min(1, -rect.top / span));
       if (corridorCaption) {
-        if (corridorP < 0.22) corridorCaption.textContent = "可爱的猫耳和声音……你喜欢的只是这层皮囊吗？";
+        if (corridorP < 0.22) corridorCaption.textContent = "可爱的小狗耳朵和声音……你喜欢的只是这层皮囊吗？";
         else if (corridorP < 0.48) corridorCaption.textContent = "我把 Live2D 滤镜关掉了哦。";
         else if (corridorP < 0.74) corridorCaption.textContent = "别闭眼。不要躲开她的眼睛。";
         else corridorCaption.textContent = "再贴近一点，她就能穿过玻璃碰到你了。";
