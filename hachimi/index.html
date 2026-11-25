@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solace™ 栖境 — 让家懂你的每一次呼吸</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="audio.js"></script>
+  <script defer src="canvas-scenes.js"></script>
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <!-- Fixed Atmospheric Overlay Layers -->
+  <canvas id="grain-canvas" aria-hidden="true"></canvas>
+  <div id="scanlines-overlay" aria-hidden="true"></div>
+  <div id="flashlight-overlay" aria-hidden="true"></div>
+  <div id="vignette-overlay" aria-hidden="true"></div>
+
+  <!-- Shattered Viewport Crack SVG (Revealed in Act 6 Climax) -->
+  <svg id="crack-overlay" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="rgba(235, 240, 245, 0.72)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M620,370 L530,290 L420,255 L290,145 L120,70" stroke-width="2.2" />
+      <path d="M620,370 L710,275 L865,210 L1020,90 L1160,15" stroke-width="2" />
+      <path d="M620,370 L660,490 L790,610 L960,760" stroke-width="2.3" />
+      <path d="M620,370 L515,470 L370,580 L195,740" stroke-width="2.1" />
+      <path d="M620,370 L615,210 L590,85 L605,0" stroke-width="1.6" />
+      <path d="M620,370 L785,390 L980,435 L1195,470" stroke-width="1.8" />
+      <path d="M620,370 L410,385 L220,415 L15,460" stroke-width="1.7" />
+      <path d="M530,290 L485,180 L455,60" stroke-width="1.1" />
+      <path d="M710,275 L735,140 L775,20" stroke-width="1.1" />
+      <path d="M660,490 L640,655 L615,795" stroke-width="1.2" />
+      <path d="M515,470 L440,640 L405,790" stroke-width="1" />
+      <path d="M420,255 L345,310 L245,300" stroke-width="1" />
+      <path d="M865,210 L920,295 L1055,315" stroke-width="1" />
+      <path d="M588,342 L646,348 L662,395 L604,412 L572,380 Z" stroke-width="1.4" />
+    </g>
+    <g fill="none" stroke="rgba(165, 22, 30, 0.45)" stroke-width="1.4">
+      <path d="M622,371 L532,292 L422,257" />
+      <path d="M622,371 L712,277 L867,212" />
+      <path d="M622,371 L662,492 L792,612" />
+    </g>
+  </svg>
+
+  <!-- Peripheral Apparitions Layer -->
+  <div id="peripheral-layer" aria-hidden="true"></div>
+
+  <!-- Tainted Scroll-Back Toast -->
+  <div id="tainted-toast" role="status" aria-live="polite">往上滑也没有用，门已经关上了。</div>
+
+  <!-- Floating Audio Pill -->
+  <button id="audio-pill" type="button" aria-pressed="false" title="切换环境音">
+    <span class="audio-dot" aria-hidden="true"></span>
+    <span id="audio-pill-label">🔊 开启专注白噪音</span>
+  </button>
+
+  <!-- Live Support Chat Widget -->
+  <aside id="chat-widget" aria-label="Solace 在线支持">
+    <button id="chat-toggle" type="button" aria-expanded="false">
+      <span class="chat-avatar" aria-hidden="true">S</span>
+      <span class="chat-toggle-text">Solace 顾问 · 在线</span>
+      <span id="chat-badge" class="chat-badge" hidden>1</span>
+    </button>
+    <div id="chat-panel" hidden>
+      <div class="chat-header">
+        <div>
+          <strong id="chat-title">Solace 专属顾问</strong>
+          <span id="chat-status" class="chat-status">● 在线 · 秒级响应</span>
+        </div>
+        <button id="chat-close" type="button" aria-label="收起对话">×</button>
+      </div>
+      <div id="chat-messages" class="chat-messages">
+        <div class="chat-msg bot">
+          <p>你好，欢迎来到 Solace™ 栖境。有任何关于智能居家与睡眠陪伴的问题，都可以随时问我。</p>
+        </div>
+      </div>
+      <div id="chat-typing" class="chat-typing" hidden>
+        <span>对方正在输入</span><span class="typing-dots"><i></i><i></i><i></i></span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Sticky Navigation Bar -->
+  <header id="site-nav">
+    <div class="nav-inner">
+      <a href="#act-hero" class="brand" id="nav-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text"
+          data-normal="Solace™ 栖境"
+          data-uncanny="Solace™ · 观察中"
+          data-horror="不要回头"
+          data-tainted="已锁死">Solace™ 栖境</span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#act-features" class="nav-link"
+          data-normal="产品特性"
+          data-uncanny="感知系统"
+          data-horror="它在听"
+          data-tainted="门外">产品特性</a>
+        <a href="#act-stories" class="nav-link"
+          data-normal="用户故事"
+          data-uncanny="住户记录"
+          data-horror="失联名单"
+          data-tainted="已注销">用户故事</a>
+        <a href="#cctv-section" class="nav-link"
+          data-normal="安心看护"
+          data-uncanny="实时画面"
+          data-horror="走廊 03"
+          data-tainted="别看">安心看护</a>
+        <a href="#act-pricing" class="nav-link"
+          data-normal="方案定价"
+          data-uncanny="服务协议"
+          data-horror="签署契约"
+          data-tainted="留下来">方案定价</a>
+      </nav>
+      <a href="#act-pricing" id="nav-cta" class="nav-cta"
+        data-normal="免费试用"
+        data-uncanny="立即接入"
+        data-horror="你逃不掉"
+        data-tainted="已在室内">免费试用</a>
+    </div>
+  </header>
+
+  <main id="experience-root">
+    <!-- ==================== ACT 1: PRISTINE CORPORATE MARKETING ==================== -->
+    <section id="act-hero" class="act-section act-1">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="hero-badge" id="hero-badge">
+            <span class="badge-dot"></span>
+            <span>2026 年度最具温度的智能居家与情绪伴侣</span>
+          </div>
+          <h1 id="hero-title">让家懂你的每一次呼吸</h1>
+          <p class="hero-subtitle" id="hero-subtitle">
+            Solace™ 将无感环境调控、声学白噪音与非接触式睡眠监测融为一体。无需繁琐设置，让每一寸光线、温度与静谧都恰到好处，温柔承接你疲惫归家的每个夜晚。
+          </p>
+          <div class="hero-actions">
+            <a href="#act-features" id="hero-start-btn" class="btn btn-primary">开始 14 天免费体验</a>
+            <button type="button" id="hero-audio-btn" class="btn btn-secondary">
+              🎧 开启 Solace 专注白噪音
+            </button>
+          </div>
+          <div class="hero-metrics">
+            <div>
+              <strong>98.6%</strong>
+              <span>用户 7 日入睡时间缩短</span>
+            </div>
+            <div>
+              <strong>24/7</strong>
+              <span>低功耗无感环境守护</span>
+            </div>
+            <div>
+              <strong>0 dB</strong>
+              <span>近乎零干扰的静默运行</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div id="live-dashboard" class="dashboard-card">
+            <div class="dash-top">
+              <div>
+                <span class="dash-kicker">SOLACE HOME OS · 主卧终端</span>
+                <div class="dash-time-row">
+                  <strong id="dash-time">--:--:--</strong>
+                  <span id="dash-status" class="status-pill safe">● 运行平稳</span>
+                </div>
+              </div>
+              <div class="occupants-pill" id="dash-occupants-wrap">
+                <span>房间人数</span>
+                <strong id="dash-occupants">1 人</strong>
+              </div>
+            </div>
+
+            <div class="dash-wave" aria-hidden="true">
+              <svg viewBox="0 0 320 68" preserveAspectRatio="none">
+                <path d="M0,38 C28,38 35,16 58,16 C82,16 90,52 118,52 C146,52 156,22 184,22 C212,22 222,46 250,46 C278,46 290,28 320,34"
+                  fill="none" stroke="url(#waveGrad)" stroke-width="2.5" stroke-linecap="round" />
+                <defs>
+                  <linearGradient id="waveGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#2563eb" />
+                    <stop offset="100%" stop-color="#06b6d4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span class="wave-label">夜间呼吸节律 · 平缓同步中</span>
+            </div>
+
+            <div class="dash-stats-grid">
+              <div class="dash-stat">
+                <span class="stat-label">静息心率</span>
+                <strong id="dash-hr">68 BPM · 平稳</strong>
+              </div>
+              <div class="dash-stat">
+                <span class="stat-label">室内温度</span>
+                <strong id="dash-temp">22.5°C · 恒温</strong>
+              </div>
+              <div class="dash-stat">
+                <span class="stat-label">入户门锁</span>
+                <strong id="dash-lock">已落锁 · 安全</strong>
+              </div>
+              <div class="dash-stat">
+                <span class="stat-label">声学感知</span>
+                <strong id="dash-cam-note">白噪音助眠中</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container trusted-strip">
+        <span class="trusted-label">受到超过 140,000 个现代家庭与先锋居住空间信赖</span>
+        <div class="trusted-logos">
+          <span>云杉居住</span>
+          <span>静安智造</span>
+          <span>森屿建筑</span>
+          <span>明镜健康</span>
+          <span>栖谷实验室</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 2: SUBTLE UNCANNY SLIP ==================== -->
+    <section id="act-features" class="act-section act-2">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">主动式环境感知引擎</span>
+          <h2>比你更早察觉房间里的每一次细微变化</h2>
+          <p class="section-sub">
+            我们移除了所有冰冷的开关与面板。Solace 会悄悄学习你的作息习惯，在你开口之前，把家调整成最适合你停留的模样。
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🌤️</div>
+            <h3>全天候环境感知</h3>
+            <p>
+              根据室外日照与你的体温波动自动微调色温与新风湿度。从清晨第一缕微光到深夜入眠，始终维持令人安心的舒适平衡。
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">👁️</div>
+            <h3>微表情与情绪同步</h3>
+            <p>
+              即使你在深夜沉默不语，镜头也能从瞳孔变化与肩颈微颤中读懂你的恐惧与疲惫，并在第一时间记住你最脆弱的表情。
+            </p>
+          </article>
+
+          <article class="feature-card feature-card-slip">
+            <div class="feature-icon">🌙</div>
+            <h3>整夜床边守护</h3>
+            <p>
+              我们在你入睡后持续记录你的每一次翻身与浅呼吸。别担心，
+              <span class="glitch-word" data-alt="我们一直站在床边看着你">灯关着我们也看得清</span>。
+            </p>
+          </article>
+        </div>
+
+        <!-- Real-Time Telemetry Panel -->
+        <div id="telemetry-panel" class="telemetry-panel">
+          <div class="telemetry-header">
+            <div>
+              <span class="telemetry-kicker">LIVE TELEMETRY // 居家状态实时遥测</span>
+              <h3>当前空间设备阵列</h3>
+            </div>
+            <span id="telemetry-badge" class="telemetry-badge">● 同步正常</span>
+          </div>
+          <div class="telemetry-list">
+            <div class="telemetry-row">
+              <span class="tel-name">客厅主顶灯</span>
+              <span id="tel-light" class="tel-state">已开启 · 暖光 2700K</span>
+              <span class="tel-time" data-later="刚刚">3 分钟前</span>
+            </div>
+            <div class="telemetry-row">
+              <span class="tel-name">卧室入户门锁</span>
+              <span id="tel-lock" class="tel-state">已关闭 · 正常</span>
+              <span class="tel-time" data-later="刚刚">12 分钟前</span>
+            </div>
+            <div class="telemetry-row">
+              <span class="tel-name">走廊红外阵列</span>
+              <span id="tel-corridor" class="tel-state">无异常移动</span>
+              <span class="tel-time" data-later="0 秒前">1 分钟前</span>
+            </div>
+            <div class="telemetry-row">
+              <span class="tel-name">阵列麦克风 #2</span>
+              <span id="tel-mic" class="tel-state">待机降噪</span>
+              <span class="tel-time" data-later="持续采样">自动校准</span>
+            </div>
+            <div class="telemetry-row telemetry-observer-row">
+              <span class="tel-name">本地观察终端</span>
+              <span id="tel-observer" class="tel-state">屏幕参数读取中...</span>
+              <span id="tel-idle" class="tel-time">实时</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 3: DETERIORATING TESTIMONIALS & LIVE CCTV ==================== -->
+    <section id="act-stories" class="act-section act-3">
+      <div class="container">
+        <div class="section-head dark-head">
+          <span class="eyebrow">真实住户档案</span>
+          <h2>听听那些从不关机的人怎么说</h2>
+          <p class="section-sub">
+            每一位长期接入 Solace 的住户，都会逐渐不再需要外出。
+          </p>
+        </div>
+
+        <div class="stories-grid">
+          <article class="story-card">
+            <div class="story-author">
+              <svg class="portrait-svg" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="30" fill="#232931" stroke="#374151" stroke-width="1.5" />
+                <path d="M16,58 C18,45 46,45 48,58" fill="#374151" />
+                <ellipse cx="32" cy="28" rx="12" ry="14" fill="#d1d5db" />
+                <path d="M20,25 C20,14 44,14 44,25 C40,20 24,20 20,25 Z" fill="#1f2937" />
+                <ellipse cx="27" cy="28" rx="2.7" ry="1.8" fill="#ffffff" />
+                <ellipse cx="37" cy="28" rx="2.7" ry="1.8" fill="#ffffff" />
+                <g class="eye-pupil"><circle cx="27" cy="28" r="1.2" fill="#111827" /><circle cx="37" cy="28" r="1.2" fill="#111827" /></g>
+                <path d="M28,35 Q32,37 36,35" fill="none" stroke="#4b5563" stroke-width="1.3" stroke-linecap="round" />
+              </svg>
+              <div>
+                <strong>林知夏</strong>
+                <span>资深产品经理 · 已使用 4 个月</span>
+              </div>
+            </div>
+            <blockquote>
+              “以前我总是在凌晨三点惊醒。自从开启了全天候静默守护，半夜再也没有杂音了。现在家里安静得连时钟都不走了。”
+            </blockquote>
+          </article>
+
+          <article class="story-card story-card-uneasy">
+            <div class="story-author">
+              <svg class="portrait-svg" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="30" fill="#181b20" stroke="#4b5563" stroke-width="1.5" />
+                <path d="M15,58 C17,44 47,44 49,58" fill="#27272a" />
+                <ellipse cx="32" cy="29" rx="11.5" ry="14.5" fill="#9ca3af" />
+                <path d="M20,23 C22,12 42,12 44,23 L42,19 L22,19 Z" fill="#111827" />
+                <ellipse cx="27" cy="28" rx="3.1" ry="2.2" fill="#f3f4f6" />
+                <ellipse cx="37" cy="28" rx="3.1" ry="2.2" fill="#f3f4f6" />
+                <g class="eye-pupil"><circle cx="27" cy="28" r="1.2" fill="#09090b" /><circle cx="37" cy="28" r="1.2" fill="#09090b" /></g>
+                <path d="M28,37 L36,37" fill="none" stroke="#374151" stroke-width="1.4" />
+              </svg>
+              <div>
+                <strong>陈默</strong>
+                <span>空间设计师 · 已使用 11 个月</span>
+              </div>
+            </div>
+            <blockquote>
+              “第一周我不太习惯摄像头半夜自动转向床头，但现在我知道，它只是怕我醒来时发现旁边站着别人。”
+            </blockquote>
+          </article>
+
+          <article class="story-card story-card-corrupted">
+            <div class="story-author">
+              <svg class="portrait-svg" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="30" fill="#0d090b" stroke="#7f1d1d" stroke-width="1.6" />
+                <path d="M14,58 C17,42 47,42 50,58" fill="#181215" />
+                <ellipse cx="32" cy="29" rx="11" ry="15" fill="#6b7280" />
+                <ellipse cx="27" cy="27" rx="3.5" ry="3.2" fill="#050505" />
+                <ellipse cx="37" cy="27" rx="3.5" ry="3.2" fill="#050505" />
+                <g class="eye-pupil"><circle cx="27" cy="27" r="1.1" fill="#ef4444" /><circle cx="37" cy="27" r="1.1" fill="#ef4444" /></g>
+                <ellipse cx="32" cy="38" rx="3.5" ry="4.5" fill="#09090b" />
+              </svg>
+              <div>
+                <strong>周██</strong>
+                <span class="corrupt-meta">[账号已注销 · 11月24日]</span>
+              </div>
+            </div>
+            <blockquote>
+              “别再往下划了。如果你听见门把手轻轻动了一下，不要去开。那不是风。”
+            </blockquote>
+          </article>
+        </div>
+
+        <!-- Live CCTV Hallway Feed -->
+        <div id="cctv-section" class="cctv-wrapper">
+          <div class="cctv-header">
+            <div>
+              <span class="cctv-kicker">安心看护 · 实时光学采样</span>
+              <h3>客厅 / 北侧走廊实时预览</h3>
+            </div>
+            <div class="cctv-meta-badges">
+              <span id="cctv-cam-id">CAM-03 · HALLWAY_NORTH</span>
+              <span id="cctv-rec" class="cctv-rec">● REC</span>
+            </div>
+          </div>
+
+          <div class="cctv-frame">
+            <canvas id="cctv-canvas"></canvas>
+            <div class="cctv-hud">
+              <span id="cctv-clock">--:--:--</span>
+              <span>IR NIGHT VISION · 24FPS</span>
+            </div>
+          </div>
+
+          <div id="cctv-status-bar" class="cctv-status-bar">
+            <span id="cctv-status-text">连接稳定 · 画面清晰</span>
+            <span id="cctv-signal">SIGNAL: 98%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 4: PSYCHOLOGICAL DREAD & BINDING CONTRACT ==================== -->
+    <section id="act-pricing" class="act-section act-4">
+      <div class="wall-whispers" aria-hidden="true">
+        <span class="whisper w1">别回头</span>
+        <span class="whisper w2">门没锁</span>
+        <span class="whisper w3">它在墙里</span>
+        <span class="whisper w4">你已经看太久了</span>
+        <span class="whisper w5">不要相信客服</span>
+        <span class="whisper w6">它就在你后面</span>
+      </div>
+
+      <div class="container pricing-container">
+        <div class="section-head dread-head">
+          <span class="eyebrow">终生居留方案</span>
+          <h2>既然已经来到这里，就挑一个位置留下来</h2>
+          <p class="section-sub">移动你的光标照亮角落。每一份协议都会即刻生效。</p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Tier 1 -->
+          <article class="pricing-card tier-1">
+            <div class="tier-head">
+              <h3>基础版</h3>
+              <div class="tier-price">¥0 <span>/ 月</span></div>
+            </div>
+            <ul class="tier-list">
+              <li><s>基础室温调节</s> <span class="red-note">你冷吗</span></li>
+              <li><s>单设备睡眠报告</s> <span class="red-note">我们已经背下来了</span></li>
+              <li><s>可随时取消订阅</s> <span class="red-note">无法解绑</span></li>
+            </ul>
+            <div class="tier-foot">已对当前访客停用</div>
+          </article>
+
+          <!-- Tier 2 -->
+          <article class="pricing-card tier-2">
+            <div class="tier-head">
+              <h3>深度共生版</h3>
+              <div class="tier-price">¥99 <span>/ 永久</span></div>
+            </div>
+            <ul class="tier-list">
+              <li>共享作息 · 熄灯时间由系统决定</li>
+              <li>共享体温 · 门窗将保持紧闭</li>
+              <li>共享视线 · 镜头永不进入休眠</li>
+              <li>走廊尽头 24 小时站立值守</li>
+            </ul>
+            <div class="tier-foot">多数人甚至没选到这一步</div>
+          </article>
+
+          <!-- Tier 3: Binding Contract -->
+          <article class="pricing-card tier-3" id="contract-card">
+            <div class="tier-head">
+              <span class="contract-tag">唯一可用选项</span>
+              <h3>永恒契约</h3>
+              <div class="tier-price">你的名字</div>
+            </div>
+
+            <div class="contract-box">
+              <label class="contract-item">
+                <input type="checkbox" class="contract-check" data-threshold="0.65" />
+                <span>我同意 Solace 随时进入我的房间</span>
+              </label>
+              <label class="contract-item">
+                <input type="checkbox" class="contract-check" data-threshold="0.71" />
+                <span>我承认门后的声音来自室内</span>
+              </label>
+              <label class="contract-item">
+                <input type="checkbox" class="contract-check" data-threshold="0.77" />
+                <span>我自愿留在这里，不再试图离开</span>
+              </label>
+            </div>
+
+            <p id="contract-feedback" class="contract-feedback">正在等待你的确认……</p>
+
+            <div class="contract-actions">
+              <a href="#act-corridor" id="sign-btn" class="btn btn-crimson">确认签署</a>
+              <div id="runaway-arena" class="runaway-arena">
+                <button type="button" id="runaway-btn" class="btn btn-ghost-danger">取消并离开</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 5: STICKY CORRIDOR DESCENT ==================== -->
+    <section id="act-corridor" class="act-section act-5">
+      <div class="corridor-sticky">
+        <canvas id="corridor-canvas"></canvas>
+        <div class="edge-scratches" aria-hidden="true">
+          <span class="scratch s1">别眨眼</span>
+          <span class="scratch s2">灯快灭了</span>
+          <span class="scratch s3">3.2m</span>
+          <span class="scratch s4">就在背后</span>
+        </div>
+        <div class="corridor-caption-wrap">
+          <p id="corridor-caption">走廊的灯又在闪了。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ACT 6: THE FINAL DOOR ==================== -->
+    <section id="act-climax" class="act-section act-6">
+      <div id="final-threshold" class="final-threshold">
+        <div class="doorway-frame">
+          <div class="door-slit" aria-hidden="true"></div>
+          <p class="threshold-note">门外已经没有路了。</p>
+          <button type="button" id="open-door-btn" class="door-btn">推开最后一扇门</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FULL-VIEWPORT CLIMAX & AFTERMATH STAGE ==================== -->
+  <div id="climax-stage" hidden>
+    <canvas id="climax-canvas"></canvas>
+    <div id="climax-text" aria-live="assertive"></div>
+    <div id="aftermath-screen" hidden>
+      <div class="aftermath-inner">
+        <div class="signal-lost-code">NO SIGNAL // CAM-03 OFFLINE</div>
+        <div id="aftermath-time" class="aftermath-time">记录已保存 · 房间内人数：2</div>
+        <p class="aftermath-sub">不要在黑暗里一直盯着屏幕看。</p>
+        <div class="aftermath-actions">
+          <button type="button" id="reset-btn" class="btn-aftermath">重新开始体验</button>
+          <button type="button" id="aftermath-audio-btn" class="btn-aftermath secondary">静音</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
